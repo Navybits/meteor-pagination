@@ -21,6 +21,7 @@ Package.onUse(function (api) {
     ]);
   api.use(['templating'], 'client');
   api.addFiles('pagination.html', 'client');
+  api.addFiles('style.css', 'client');
   api.mainModule('client.js','client');
   // api.export('Navybits_items',['server','client']);
 });

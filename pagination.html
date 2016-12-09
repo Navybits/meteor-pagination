@@ -12,7 +12,7 @@
     <div class="pagination-container text-center">
         <ul class="pagination">
             <li>
-                <a href="#" class="{{#if isDescOrder currentPage 1}}pagination-link{{/if}}" data-page="{{minusOne currentPage}}" title="Previous page"> &lt; </a>
+                <a href="#" class="{{#if isDescOrder currentPage 1}}pagination-link{{else}}disabled-pagination{{/if}}" data-page="{{minusOne currentPage}}" title="Previous page"> &lt; </a>
             </li>
             {{#if isDescOrder currentPage 1 }}
             <li><a href="#" class="pagination-link" title="page 1" data-page="1">1</a></li>
@@ -26,7 +26,7 @@
             <li><a href="#" class="pagination-link" title="page {{totalPages}}" data-page="{{totalPages}}">{{totalPages}}</a></li>
             {{/if}}
             <li>
-                <a href="#" class="{{#if isAscOrder currentPage totalPages}}pagination-link{{/if}}" data-page="{{plusOne currentPage}}" title="Next page"> &gt; </a>
+                <a href="#" class="{{#if isAscOrder currentPage totalPages}}pagination-link{{else}}disabled-pagination{{/if}}" data-page="{{plusOne currentPage}}" title="Next page"> &gt; </a>
             </li>
         </ul>
     </div>
