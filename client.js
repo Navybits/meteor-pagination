@@ -12,7 +12,7 @@ Template.navybitsPagination.events({
     },
     'change #sortBy': function (ev, temp) {
         let sortBy = temp.$(ev.target).val(),
-            sortingDirection = temp.$(ev.target).attr('data-sorting-direction');
+            sortingDirection = (sortBy === "date") ? "desc" : "asc";
         temp.sortBy.set({
             sortBy,
             sortingDirection
