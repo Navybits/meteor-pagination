@@ -1,18 +1,31 @@
 <template name="navybitsPagination">
     <div class="row">
+        {{#unless isEmpty sortingBy}}
         <div class="input-field col s4">
             <select id="sortBy">
-                    <option value="date" data-sorting-direction="desc" selected>{{_"mostRecent"}}</option>
-                    <option value="userName" data-sorting-direction="asc">{{_"Customer name"}}</option>
+                 <option selected>{{_"Sort by"}}</option>
+                {{#each sortingByValue in sortingBy}}
+                     <option value="{{sortingByValue}}">{{_ sortingByValue}}</option>
+                {{/each}}
+                    <!--<option value="date" data-sorting-direction="desc" selected>{{_"mostRecent"}}</option>
+                    <option value="userName" data-sorting-direction="asc">{{_"Customer name"}}</option>-->
                 </select>
-                <label for="sortBy">{{_"sortBy"}}</label>
+            {{#if isMaterialized}}<label for="sortBy">{{_"Sort by"}}</label>{{/if}}
         </div>
+        {{/unless}}
+        {{#unless isEmpty searchable}}
+        <div class="input-field col s4">
+            <input id="searchForDocument" placeholder="{{#unless isMaterialized}}{{_'Search in list'}}{{/unless}}" name="Search" type="text">
+            {{#if isMaterialized}}<label for="searchForDocument">{{_"Search in list"}}</label>{{/if}}
+        </div>
+        {{/unless}}
     </div>
     {{#each page}} {{>Template.contentBlock this}} {{/each}}
     <div class="pagination-container text-center">
-        <ul class="pagination">
+        <ul class="navy-pagination pagination">
             <li>
-                <a href="#" class="{{#if isDescOrder currentPage 1}}pagination-link{{else}}disabled-pagination{{/if}}" data-page="{{minusOne currentPage}}" title="Previous page"> &lt; </a>
+                <a href="#" class="{{#if isDescOrder currentPage 1}}pagination-link{{else}}disabled-pagination{{/if}}" data-page="{{minusOne currentPage}}"
+                    title="Previous page"> &lt; </a>
             </li>
             {{#if isDescOrder currentPage 1 }}
             <li><a href="#" class="pagination-link" title="page 1" data-page="1">1</a></li>
@@ -26,7 +39,8 @@
             <li><a href="#" class="pagination-link" title="page {{totalPages}}" data-page="{{totalPages}}">{{totalPages}}</a></li>
             {{/if}}
             <li>
-                <a href="#" class="{{#if isAscOrder currentPage totalPages}}pagination-link{{else}}disabled-pagination{{/if}}" data-page="{{plusOne currentPage}}" title="Next page"> &gt; </a>
+                <a href="#" class="{{#if isAscOrder currentPage totalPages}}pagination-link{{else}}disabled-pagination{{/if}}" data-page="{{plusOne currentPage}}"
+                    title="Next page"> &gt; </a>
             </li>
         </ul>
     </div>

@@ -1,6 +1,6 @@
 Package.describe({
   name: 'navybits:pagination',
-  version: '0.0.1',
+  version: '0.0.2',
   // Brief, one-line summary of the package.
   summary: 'Custom pagination package by Navybits',
   // URL to the Git repository containing the source code for this package.
@@ -13,7 +13,8 @@ Package.describe({
 Package.onUse(function (api) {
   api.versionsFrom('1.4.1.1');
   api.use('ecmascript');
-  api.use(['materialize:materialize@0.97.7',
+  api.use([
+    // 'materialize:materialize@0.97.7',
     'tap:i18n@1.8.2',
     'stevezhu:lodash@4.15.0',
     'jquery@1.11.9',

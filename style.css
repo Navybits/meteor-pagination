@@ -1,3 +1,6 @@
 .disabled-pagination{
     color:grey !important;
 }
+ul.navy-pagination>li{
+    display: inline-block;
+}
