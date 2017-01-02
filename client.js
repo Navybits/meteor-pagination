@@ -1,11 +1,59 @@
-let perPage = Meteor.settings.public && Meteor.settings.public.navybitsPagination && Meteor.settings.public.navybitsPagination.perPage || undefined;
+Template.navybitsPagination.onCreated(function () {
+    //using self instead of this
+    let self = this;
+
+    //how much we are requiring data on first load
+    this.requiredPages = new ReactiveVar(Number(self.data.initialRequiredPages) || 10);
+
+    //how much we are increasing the limit each time
+    this.limitIncrease = new ReactiveVar(Number(self.data.limitIncrease) || 10);
+
+    //subscribe to the initial amount of data
+    let subscriptionData = self.data.subscriptionData;
+    let subscriptionName = subscriptionData && subscriptionData.subscriptionName;
+    if (subscriptionName) {
+        Meteor.subscribe(subscriptionName, {
+            ...subscriptionData,
+            limit: this.requiredPages.get()
+        });
+    }
+    //setting the pageNum to the first page initially 
+    this.pageNum = new ReactiveVar(1);
+
+    //setting the amount of data we want to render in each page
+    this.perPage = new ReactiveVar(Number(self.data.perPage) || 5);
+
+    //the number of total pages , to be calculated dynamically
+    this.totalPages = new ReactiveVar();
+
+    //sorting capabilitites
+    this.sortBy = new ReactiveVar({
+        sortBy: '',
+        sortingDirection: ''
+    });
+    //searching capability
+    this.searchingFor = new ReactiveVar('');
+
+    //checking if the project has materialize
+    try {
+        $('select').material_select();
+    } catch (error) {
+        console.log('Materialize is not supported!');
+    }
+});
+
 Template.navybitsPagination.events({
     'click .pagination-link': function (ev, temp) {
+        //set the page to the selected page number 
         let destination = +temp.$(ev.target).attr('data-page');
         temp.pageNum.set(destination);
     },
     'change #sortBy': function (ev, temp) {
+        //set the sorting reactive object to the selected sorting option
         let sortBy = temp.$(ev.target).val(),
+            //default sorting direction is ascending, unless in case of date or createdAt sorting
+            //this is because we are assuming that we are almost always interested about the newest
+            //result if we want to sort by date
             sortingDirection = (sortBy === "date" || sortBy === "createdAt") ? "desc" : "asc";
         temp.sortBy.set({
             sortBy,
@@ -13,16 +61,55 @@ Template.navybitsPagination.events({
         });
     },
     'keyup #searchForDocument': function (ev, temp) {
+        //setting the search reactive variable to the 
+        //entered search text by the user
         temp.searchingFor.set($(ev.target).val());
-        console.log(temp.searchingFor.get());
     },
+    'click .navybits-more-pages': function (ev, temp) {
+        /**
+         * this event is very important
+         * the pagination performance 
+         * quality indicator is here 
+         * the following code takes care of 
+         * the expantion of subscription result 
+         * in case the user is providing a subscription name
+         */
+
+        // current length of the data   
+        let dataLength = temp.data.data.length;
+        let currentCount = dataLength || 0;
+
+        //subscription name
+        let subscriptionName = temp.data.subscriptionData && temp.data.subscriptionData.subscriptionName;
+
+
+        //next limit target
+        let nextLimit = (temp.requiredPages.get() || 0) + temp.limitIncrease.get();
+
+        //expand the subscription in case the 
+        //subscriptionName is provided and 
+        //we have the ability to expand
+        if (nextLimit < currentCount + temp.limitIncrease.get() + 1 && subscriptionName) {
+            Meteor.subscribe(subscriptionName, {
+                limit: nextLimit
+            });
+        }
+
+        //setting the new required data limit
+        temp.requiredPages.set(nextLimit);
+    }
 });
 var updatePages = function (dataLength, perPage) {
+    //this function is responsible for 
+    //updating the totalPages variable 
+    //based on the data length
     let totalPgs = parseInt(dataLength / perPage);
     if (dataLength % perPage !== 0) totalPgs += 1;
     return totalPgs;
 }
 var filterDataOnSearch = function (data, searchable, searchText) {
+    //this function searches only into
+    //the searchable fields of all data
     return _.filter(data, (doc) => {
         let isMatchingSomeField = _.find(_.values(_.pick(doc, searchable)), (val) => {
             return val && _.isString(val) && val.match(searchText);
@@ -31,6 +118,9 @@ var filterDataOnSearch = function (data, searchable, searchText) {
     });
 }
 Template.navybitsPagination.helpers({
+    //a helper for materialize components
+    //we test it when we want to use
+    //a materialize component in our templates
     isMaterialized: function () {
         let result = false;
         try {
@@ -47,7 +137,7 @@ Template.navybitsPagination.helpers({
     page: function () {
         let instance = Template.instance(); //for easy use
         let pageNum = instance.pageNum.get() || 1; //getting page number
-        let itemsPerPage = instance.perPage.get() || perPage; //how much items per page
+        let itemsPerPage = instance.perPage.get() ; //how much items per page
         //calculation of indexes from and to
         let from = (pageNum - 1) * itemsPerPage;
         let to = from + itemsPerPage;
@@ -102,33 +192,25 @@ Template.navybitsPagination.helpers({
     totalPages: function () {
         let instance = Template.instance();
         return instance.totalPages.get();
+    },
+    requiredPages: function () {
+        let instance = Template.instance();
+        return instance.requiredPages.get() - instance.limitIncrease.get();
+    },
+    subscriptionName: function () {
+        let instance = Template.instance();
+        let subscriptionData = instance.data.subscriptionData;
+        return subscriptionData && subscriptionData.subscriptionName;
     }
 
 });
 Template.navybitsPagination.rendered = function () {
     let self = Template.instance();
     let dataLength = self.data.data.length;
-    let totalPgs = parseInt(dataLength / self.perPage.get());
-    if (dataLength % self.perPage.get() !== 0) totalPgs += 1;
+    //calculation of the total number of pages for the first time
+    let totalPgs = updatePages(dataLength, self.perPage.get());
     self.totalPages.set(totalPgs);
-}
-Template.navybitsPagination.onCreated(function () {
-    this.pageNum = new ReactiveVar(1);
-    this.perPage = new ReactiveVar(5);
-    this.totalPages = new ReactiveVar();
-    this.sortBy = new ReactiveVar({
-        sortBy: '',
-        sortingDirection: ''
-    });
-    this.searchingFor = new ReactiveVar('');
-
-    try {
-        $('select').material_select();
-    } catch (error) {
-        console.log('Materialize is not supported!');
-    }
-});
-Template.navybitsPagination.rendered = function () {
+    //checking if the project has materialize 
     try {
         $('select').material_select();
     } catch (error) {

@@ -9,14 +9,11 @@
                 {{/each}}
                     <!--<option value="date" data-sorting-direction="desc" selected>{{_"mostRecent"}}</option>
                     <option value="userName" data-sorting-direction="asc">{{_"Customer name"}}</option>-->
-                </select>
-            {{#if isMaterialized}}<label for="sortBy">{{_"Sort by"}}</label>{{/if}}
+                </select> {{#if isMaterialized}}<label for="sortBy">{{_"Sort by"}}</label>{{/if}}
         </div>
-        {{/unless}}
-        {{#unless isEmpty searchable}}
+        {{/unless}} {{#unless isEmpty searchable}}
         <div class="input-field col s4">
-            <input id="searchForDocument" placeholder="{{#unless isMaterialized}}{{_'Search in list'}}{{/unless}}" name="Search" type="text">
-            {{#if isMaterialized}}<label for="searchForDocument">{{_"Search in list"}}</label>{{/if}}
+            <input id="searchForDocument" placeholder="{{#unless isMaterialized}}{{_'Search in list'}}{{/unless}}" name="Search" type="text">            {{#if isMaterialized}}<label for="searchForDocument">{{_"Search in list"}}</label>{{/if}}
         </div>
         {{/unless}}
     </div>
@@ -37,7 +34,11 @@
             <li><a href="#" class="pagination-link" title="page {{plusOne currentPage}}" data-page="{{plusOne currentPage}}">{{plusOne currentPage}}</a></li>
             {{/if}} {{#if isAscOrder currentPage totalPages }}
             <li><a href="#" class="pagination-link" title="page {{totalPages}}" data-page="{{totalPages}}">{{totalPages}}</a></li>
-            {{/if}}
+            {{/if}} {{#if subscriptionName}} {{#if isAscOrder requiredPages totalPages }}
+            <li>
+                <a href="#" class="navybits-more-pages" title="More pages"> ... </a>
+            </li>
+            {{/if}}{{/if}}
             <li>
                 <a href="#" class="{{#if isAscOrder currentPage totalPages}}pagination-link{{else}}disabled-pagination{{/if}}" data-page="{{plusOne currentPage}}"
                     title="Next page"> &gt; </a>

@@ -1,8 +1,8 @@
 Package.describe({
   name: 'navybits:pagination',
-  version: '0.0.2',
+  version: '1.0.0',
   // Brief, one-line summary of the package.
-  summary: 'Custom pagination package by Navybits',
+  summary: 'Paginate whatever you want, wherever you want, whenever you want and how much ever you want. A meteor pagination package by Navybits',
   // URL to the Git repository containing the source code for this package.
   git: '',
   // By default, Meteor will default to using README.md for documentation.
@@ -14,7 +14,6 @@ Package.onUse(function (api) {
   api.versionsFrom('1.4.1.1');
   api.use('ecmascript');
   api.use([
-    // 'materialize:materialize@0.97.7',
     'tap:i18n@1.8.2',
     'stevezhu:lodash@4.15.0',
     'jquery@1.11.9',
@@ -24,12 +23,10 @@ Package.onUse(function (api) {
   api.addFiles('pagination.html', 'client');
   api.addFiles('style.css', 'client');
   api.mainModule('client.js','client');
-  // api.export('Navybits_items',['server','client']);
 });
 
 Package.onTest(function (api) {
   api.use('ecmascript');
   api.use('tinytest');
   api.use('navybits:pagination');
-  // api.mainModule('items-manager-tests.js');
 });
