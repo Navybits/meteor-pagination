@@ -9,11 +9,11 @@ Template.navybitsPagination.onCreated(function () {
     this.limitIncrease = new ReactiveVar(Number(self.data.limitIncrease) || 10);
 
     //subscribe to the initial amount of data
-    let subscriptionData = self.data.subscriptionData;
-    let subscriptionName = subscriptionData && subscriptionData.subscriptionName;
+    let subscriptionDetails = self.data.subscriptionDetails;
+    let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
     if (subscriptionName) {
         Meteor.subscribe(subscriptionName, {
-            ...subscriptionData,
+            ...subscriptionDetails,
             limit: this.requiredPages.get()
         });
     }
@@ -80,7 +80,7 @@ Template.navybitsPagination.events({
         let currentCount = dataLength || 0;
 
         //subscription name
-        let subscriptionName = temp.data.subscriptionData && temp.data.subscriptionData.subscriptionName;
+        let subscriptionName = temp.data.subscriptionDetails && temp.data.subscriptionDetails.subscriptionName;
 
 
         //next limit target
@@ -199,8 +199,8 @@ Template.navybitsPagination.helpers({
     },
     subscriptionName: function () {
         let instance = Template.instance();
-        let subscriptionData = instance.data.subscriptionData;
-        return subscriptionData && subscriptionData.subscriptionName;
+        let subscriptionDetails = instance.data.subscriptionDetails;
+        return subscriptionDetails && subscriptionDetails.subscriptionName;
     }
 
 });
