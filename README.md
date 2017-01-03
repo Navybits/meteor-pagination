@@ -8,6 +8,7 @@ This package provides two major advantages upon other pagination packages:
   1.  Pagination of a *set of documents* from existing data collection through subscription. A good example is the pagination of all feedbacks (*data collection*) sent by users in an efficient way (Think about **10,000** feedbacks during 2 years of service) .
   2.  Pagination of an *array field* in all documents in a collection. For example pagination of all comments(*array field*) for all posts (*collection*) (Think about **100** comments for each of **10,000** posts in your system, imagine these comments are distributed upon 5 years of service).
   3.  Pagination of a *set of data* that exists on client side. This happens in case you already have a set of data and you want to enhance the user experience.
+
 ### Dependencies
   - tap:i18n@1.8.2
   - stevezhu:lodash@4.15.0
