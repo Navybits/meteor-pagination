@@ -45,7 +45,7 @@ This is just a demo, obviously you have to fill the `dataToPaginate` helper by y
 
 
 For more details about using the package in different situations, please visit our blog post page  :  
-[Visit our blog](https://blog.navybits.com)
+[Visit our blog](https://blog.navybits.com/efficient-and-high-performance-pagination-in-meteor-bb5d379d234)
 
 ### Version
 1.0.0
