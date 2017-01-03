@@ -2,7 +2,7 @@ Package.describe({
   name: 'navybits:pagination',
   version: '1.0.1',
   // Brief, one-line summary of the package.
-  summary: 'Paginate whatever you want, wherever you want, whenever you want and how much ever you want. A meteor pagination package by Navybits',
+  summary: 'Paginate efficiently whatever you want, and whenever you want. A meteor pagination by Navybits',
   // URL to the Git repository containing the source code for this package.
   git: 'https://github.com/Navybits/meteor-pagination.git',
   // By default, Meteor will default to using README.md for documentation.
