@@ -1,5 +1,8 @@
 # navybits:pagination
 ___
+### Demo 
+[Pagination demo](https://meteor.navybits.com/comments)
+
 ### Description
 **navybits:pagination** is a simple pagination package cooked for use in meteor apps.  
 This package provides two major advantages upon other pagination packages:
