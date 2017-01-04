@@ -29,12 +29,12 @@
             {{/if}} {{#if isDescOrder (minusOne currentPage) 1 }}
             <li><a href="#" class="pagination-link" title="page {{minusOne currentPage}}" data-page="{{minusOne currentPage}}">{{minusOne currentPage}}</a></li>
             {{/if}}
-            <li class="active"><a href="#" title="page 1">{{currentPage}}</a></li>
+            <li class="active"><a href="#" title="page {{currentPage}}">{{currentPage}}</a></li>
             {{#if isAscOrder (plusOne currentPage) totalPages }}
             <li><a href="#" class="pagination-link" title="page {{plusOne currentPage}}" data-page="{{plusOne currentPage}}">{{plusOne currentPage}}</a></li>
             {{/if}} {{#if isAscOrder currentPage totalPages }}
             <li><a href="#" class="pagination-link" title="page {{totalPages}}" data-page="{{totalPages}}">{{totalPages}}</a></li>
-            {{/if}} {{#if subscriptionName}} {{#if isAscOrder requiredPages totalPages }}
+            {{/if}} {{#if subscriptionName}} {{#if isAscOrder requiredPages totalRecords }}
             <li>
                 <a href="#" class="navybits-more-pages" title="More pages"> ... </a>
             </li>

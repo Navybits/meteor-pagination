@@ -89,7 +89,7 @@ Template.navybitsPagination.events({
         //expand the subscription in case the 
         //subscriptionName is provided and 
         //we have the ability to expand
-        if (nextLimit < currentCount + temp.limitIncrease.get() + 1 && subscriptionName) {
+        if (temp.requiredPages.get() < currentCount + temp.limitIncrease.get() && subscriptionName) {
             Meteor.subscribe(subscriptionName, {
                 limit: nextLimit
             });
@@ -137,7 +137,7 @@ Template.navybitsPagination.helpers({
     page: function () {
         let instance = Template.instance(); //for easy use
         let pageNum = instance.pageNum.get() || 1; //getting page number
-        let itemsPerPage = instance.perPage.get() ; //how much items per page
+        let itemsPerPage = instance.perPage.get(); //how much items per page
         //calculation of indexes from and to
         let from = (pageNum - 1) * itemsPerPage;
         let to = from + itemsPerPage;
@@ -192,6 +192,12 @@ Template.navybitsPagination.helpers({
     totalPages: function () {
         let instance = Template.instance();
         return instance.totalPages.get();
+    },
+    totalRecords: function () {
+        // current length of the data   
+        let instance = Template.instance();
+        let dataLength = instance && instance.data && instance.data.data && instance.data.data.length || 0;
+        return dataLength;
     },
     requiredPages: function () {
         let instance = Template.instance();
