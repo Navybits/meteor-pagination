@@ -31,6 +31,18 @@ Template.navybitsPagination.onCreated(function () {
         sortBy: '',
         sortingDirection: ''
     });
+
+    //sorting by descending date in case
+    //no sorting options provided
+    if (!self.data.sortingBy) {
+        this.sortBy.set({
+            sortBy: 'date',
+            sortingDirection: 'desc'
+        });
+    }
+
+
+
     //searching capability
     this.searchingFor = new ReactiveVar('');
 
