@@ -165,7 +165,7 @@ var updatePages = function (dataLength, perPage) {
 var filterDataOnSearch = function (data, searchable, searchText) {
     //this function searches only into
     //the searchable fields of all data
-    return _.filter(temp1, (doc) => {
+    return _.filter(data, (doc) => {
         let isMatchingSomeField = _.find(_.map(_.values(getVeryNestedPagination(_.pick(doc, searchable))), (obj) => {
             return obj.value;
         }), (val) => {
