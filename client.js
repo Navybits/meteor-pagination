@@ -90,12 +90,16 @@ Template.navybitsPagination.events({
         let searchText = $(ev.target).val(),
             limit = temp.requiredPages.get();
 
+        let {
+            subscriptionDetails
+        } = temp.data
         //subscription name
-        let subscriptionName = temp.data.subscriptionDetails && temp.data.subscriptionDetails.subscriptionName;
+        let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
 
         //sending new request to the server 
         //with the new search text
         let query = {
+            ...subscriptionDetails,
             limit
         };
         if (searchText) query.searchText = searchText;
@@ -121,8 +125,11 @@ Template.navybitsPagination.events({
         let dataLength = temp.data.data.length;
         let currentCount = dataLength || 0;
 
+        let {
+            subscriptionDetails
+        } = temp.data
         //subscription name
-        let subscriptionName = temp.data.subscriptionDetails && temp.data.subscriptionDetails.subscriptionName;
+        let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
 
 
         //next limit target
@@ -136,6 +143,7 @@ Template.navybitsPagination.events({
         //we have the ability to expand
         if (temp.requiredPages.get() < currentCount + temp.limitIncrease.get() && subscriptionName) {
             let query = {
+                ...subscriptionDetails,
                 limit: nextLimit
             };
             if (searchText) query.searchText = searchText;
