@@ -17,8 +17,10 @@
         </div>
         {{/unless}}
     </div>
-    {{#each page}} {{>Template.contentBlock this}} {{/each}}
-    <div class="pagination-container text-center">
+    <div class="row">
+        {{#each page}} {{>Template.contentBlock this}} {{/each}}
+    </div>
+    <div class="pagination-container text-center row">
         <ul class="navy-pagination pagination">
             <li>
                 <a href="#" class="{{#if isDescOrder currentPage 1}}pagination-link{{else}}disabled-pagination{{/if}}" data-page="{{minusOne currentPage}}"
