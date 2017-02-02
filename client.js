@@ -1,3 +1,16 @@
+var getVeryNestedPagination = function (item, level, result) {
+    result = result || [];
+    _.each(item, (value, key) => {
+        let mylevel = level && "{0}.{1}".format(level, key) || key;
+        if (!_.isObject(value) || _.isDate(value)) {
+            result.push({
+                key: mylevel,
+                value
+            });
+        } else getVeryNestedPagination(value, mylevel, result);
+    });
+    return result;
+}
 Template.navybitsPagination.onCreated(function () {
     //using self instead of this
     let self = this;
@@ -73,9 +86,26 @@ Template.navybitsPagination.events({
         });
     },
     'keyup #searchForDocument': function (ev, temp) {
+
+        let searchText = $(ev.target).val(),
+            limit = temp.requiredPages.get();
+
+        //subscription name
+        let subscriptionName = temp.data.subscriptionDetails && temp.data.subscriptionDetails.subscriptionName;
+
+        //sending new request to the server 
+        //with the new search text
+        let query = {
+            limit
+        };
+        if (searchText) query.searchText = searchText;
+        if (subscriptionName && limit && searchText)
+            Meteor.subscribe(subscriptionName, query);
+
+
         //setting the search reactive variable to the 
         //entered search text by the user
-        temp.searchingFor.set($(ev.target).val());
+        temp.searchingFor.set(searchText);
     },
     'click .navybits-more-pages': function (ev, temp) {
         /**
@@ -98,13 +128,18 @@ Template.navybitsPagination.events({
         //next limit target
         let nextLimit = (temp.requiredPages.get() || 0) + temp.limitIncrease.get();
 
+        //search text if exists
+        let searchText = temp.searchingFor.get();
+
         //expand the subscription in case the 
         //subscriptionName is provided and 
         //we have the ability to expand
         if (temp.requiredPages.get() < currentCount + temp.limitIncrease.get() && subscriptionName) {
-            Meteor.subscribe(subscriptionName, {
+            let query = {
                 limit: nextLimit
-            });
+            };
+            if (searchText) query.searchText = searchText;
+            Meteor.subscribe(subscriptionName, query);
         }
 
         //setting the new required data limit
@@ -122,9 +157,11 @@ var updatePages = function (dataLength, perPage) {
 var filterDataOnSearch = function (data, searchable, searchText) {
     //this function searches only into
     //the searchable fields of all data
-    return _.filter(data, (doc) => {
-        let isMatchingSomeField = _.find(_.values(_.pick(doc, searchable)), (val) => {
-            return val && _.isString(val) && val.match(searchText);
+    return _.filter(temp1, (doc) => {
+        let isMatchingSomeField = _.find(_.map(_.values(getVeryNestedPagination(_.pick(doc, searchable))), (obj) => {
+            return obj.value;
+        }), (val) => {
+            return val && _.isString(val) && val.toLowerCase().match(searchText.toLowerCase());
         });
         return isMatchingSomeField !== undefined;
     });
