@@ -92,7 +92,7 @@ Template.navybitsPagination.onCreated(function () {
         }
         //setting the search reactive variable to the 
         //entered search text by the user
-        self.searchingFor.set(searchText);
+        self.searchingFor.set(externalSearchText);
     });
     /**----------using external search query------------ */
 
