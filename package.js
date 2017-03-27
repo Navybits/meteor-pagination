@@ -1,6 +1,6 @@
 Package.describe({
   name: 'navybits:pagination',
-  version: '1.0.9',
+  version: '1.0.11',
   // Brief, one-line summary of the package.
   summary: 'Paginate efficiently whatever you want, and whenever you want. A meteor pagination by Navybits',
   // URL to the Git repository containing the source code for this package.
@@ -11,7 +11,7 @@ Package.describe({
 });
 
 Package.onUse(function (api) {
-  api.versionsFrom('1.4.1.1');
+  api.versionsFrom('1.4.2.3');
   api.use('ecmascript');
   api.use([
     'tap:i18n@1.8.2',
@@ -19,7 +19,7 @@ Package.onUse(function (api) {
     'jquery@1.11.9',
     'reactive-var@1.0.10'
     ]);
-  api.use(['templating'], 'client');
+  api.use(['templating@1.2.15'], 'client');
   api.addFiles('pagination.html', 'client');
   api.addFiles('style.css', 'client');
   api.mainModule('client.js','client');

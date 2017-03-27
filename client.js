@@ -59,6 +59,45 @@ Template.navybitsPagination.onCreated(function () {
     //searching capability
     this.searchingFor = new ReactiveVar('');
 
+    /**
+     * using external search query
+     */
+    this.autorun(() => {
+        //getting the current external search word
+        var dataContext = Template.currentData();
+        let {
+            externalSearchText
+        } = dataContext;
+        // console.log({externalSearchText,dataContext});
+        if (externalSearchText && externalSearchText !== '') {
+            let searchText = externalSearchText,
+                limit = self.requiredPages.get();
+
+            let {
+                subscriptionDetails
+            } = self.data
+            //subscription name
+            let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
+
+            //sending new request to the server 
+            //with the new search text
+            let query = {
+                ...subscriptionDetails,
+                limit
+            };
+            if (searchText) query.searchText = searchText;
+            if (subscriptionName && limit && searchText)
+                Meteor.subscribe(subscriptionName, query);
+
+
+            //setting the search reactive variable to the 
+            //entered search text by the user
+            self.searchingFor.set(searchText);
+        }
+    });
+    /**----------using external search query------------ */
+
+
     //checking if the project has materialize
     try {
         $('select').material_select();
@@ -95,41 +134,6 @@ Template.navybitsPagination.events({
         } = temp.data
         //subscription name
         let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
-
-        //sending new request to the server 
-        //with the new search text
-        let query = {
-            ...subscriptionDetails,
-            limit
-        };
-        if (searchText) query.searchText = searchText;
-        if (subscriptionName && limit && searchText)
-            Meteor.subscribe(subscriptionName, query);
-
-
-        //setting the search reactive variable to the 
-        //entered search text by the user
-        temp.searchingFor.set(searchText);
-    },
-    'keyup .searchForDocument': function (ev, temp) {
-
-        let searchText = $(ev.target).val(),
-            limit = temp.requiredPages.get();
-
-        let {
-            subscriptionDetails
-        } = temp.data
-        //subscription name
-        let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
-
-        /**
-         * We will make sure this input
-         * is the input we want to serve
-         */
-        let inputSearchId = $(ev.target).attr('data-search-id') || '';
-        let searchId = subscriptionDetails && subscriptionDetails.searchId || undefined;
-        if (searchId && inputSearchId && searchId !== inputSearchId) return;
-        /**-------------------------------- */
 
         //sending new request to the server 
         //with the new search text
