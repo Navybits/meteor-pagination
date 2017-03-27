@@ -20,9 +20,12 @@
         {{/unless}}
     </div>
     {{/unless}}
-    {{#unless isTable}}<div class="row">{{/unless}}
+    {{#unless isTable}}<div class="row">
         {{#each page}} {{>Template.contentBlock this}} {{/each}}
-     {{#unless isTable}}</div>{{/unless}}
+     </div>
+     {{else}}
+             {{#each page}} {{>Template.contentBlock this}} {{/each}}
+     {{/unless}}
     <div class="pagination-container text-center row">
         <ul class="navy-pagination pagination">
             <li>

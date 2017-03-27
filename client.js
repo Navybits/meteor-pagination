@@ -89,11 +89,10 @@ Template.navybitsPagination.onCreated(function () {
             if (subscriptionName && limit && searchText)
                 Meteor.subscribe(subscriptionName, query);
 
-
-            //setting the search reactive variable to the 
-            //entered search text by the user
-            self.searchingFor.set(searchText);
         }
+        //setting the search reactive variable to the 
+        //entered search text by the user
+        self.searchingFor.set(searchText);
     });
     /**----------using external search query------------ */
 
