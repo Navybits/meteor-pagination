@@ -230,6 +230,10 @@ Template.navybitsPagination.helpers({
     isEmpty: function (obj) {
         return _.isEmpty(obj);
     },
+    isTable: function () {
+        let instance = Template.instance(); //for easy use
+        return instance.data && instance.data.isTable;
+    },
     page: function () {
         let instance = Template.instance(); //for easy use
         let pageNum = instance.pageNum.get() || 1; //getting page number
