@@ -207,7 +207,7 @@ var filterDataOnSearch = function (data, searchable, searchText) {
         let isMatchingSomeField = _.find(_.map(_.values(getVeryNestedPagination(_.pick(doc, searchable))), (obj) => {
             return obj.value;
         }), (val) => {
-            return val && _.isString(val) && val.toLowerCase().match(searchText.toLowerCase());
+            return val && _.isString(val) && _.isString(searchText) && val.toLowerCase().match(searchText.toLowerCase());
         });
         return isMatchingSomeField !== undefined;
     });
@@ -258,7 +258,7 @@ Template.navybitsPagination.helpers({
 
         //in case we are searching for something 
         //filter data based on search text
-        if (!_.isEmpty(searchable) && searchText !== '') {
+        if (!_.isEmpty(searchable) && _.isString(searchText) && searchText !== '') {
             data = filterDataOnSearch(data, searchable, searchText)
         }
 
