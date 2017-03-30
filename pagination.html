@@ -1,6 +1,6 @@
 <template name="navybitsPagination">
     {{#unless isTable}}
-    <div class="row">
+    <div class="row no-margin-bottom">
         {{#unless isEmpty sortingBy}}
         <div class="input-field col s4">
             <select id="sortBy">
@@ -14,9 +14,11 @@
         </div>
         {{/unless}} 
         {{#unless isEmpty searchable}}
+          {{#if isUndefined externalSearchText}}
         <div class="input-field col s4">
             <input id="searchForDocument" placeholder="{{#unless isMaterialized}}{{_'Search in list'}}{{/unless}}" name="Search" type="text">            {{#if isMaterialized}}<label for="searchForDocument">{{_"Search in list"}}</label>{{/if}}
         </div>
+         {{/if}}
         {{/unless}}
     </div>
     {{/unless}}

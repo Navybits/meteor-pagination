@@ -229,6 +229,9 @@ Template.navybitsPagination.helpers({
     isEmpty: function (obj) {
         return _.isEmpty(obj);
     },
+    isUndefined: function (obj) {
+        return obj === undefined;
+    },
     isTable: function () {
         let instance = Template.instance(); //for easy use
         return instance.data && instance.data.isTable;
