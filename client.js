@@ -67,16 +67,18 @@ Template.navybitsPagination.onCreated(function () {
         //getting the current external search word
         var dataContext = Template.currentData();
         let {
-            externalSearchText
+            externalSearchText, subscriptionDetails, perPage
         } = dataContext;
-        // console.log({externalSearchText,dataContext});
-        if (externalSearchText && externalSearchText !== '') {
+        console.log({externalSearchText,dataContext});
+        // if (externalSearchText && externalSearchText !== '') {
             let searchText = externalSearchText,
+                sortBy = subscriptionDetails.sortBy,
+                // perPage = self.perPage.get(),
                 limit = self.requiredPages.get();
 
-            let {
-                subscriptionDetails
-            } = self.data
+            /*  let {
+                 subscriptionDetails
+             } = self.data */
             //subscription name
             let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
 
@@ -87,10 +89,11 @@ Template.navybitsPagination.onCreated(function () {
                 limit
             };
             if (searchText) query.searchText = searchText;
-            if (subscriptionName && limit && searchText)
+            if (subscriptionName && limit && (searchText || perPage || sortBy)) {
                 Meteor.subscribe(subscriptionName, query);
-
-        }
+                console.log({ subscriptionName, limit, searchText, perPage, sortBy });
+            }
+        // }
         //setting the search reactive variable to the 
         //entered search text by the user
         self.searchingFor.set(externalSearchText);
