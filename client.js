@@ -11,6 +11,7 @@ var getVeryNestedPagination = function (item, level, result) {
     });
     return result;
 }
+
 Template.navybitsPagination.onCreated(function () {
     //using self instead of this
     let self = this;
