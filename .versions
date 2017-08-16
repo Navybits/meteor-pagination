@@ -27,7 +27,7 @@ html-tools@1.0.11
 htmljs@1.0.11
 id-map@1.0.9
 jquery@1.11.9
-local-test:navybits:pagination@1.0.20
+local-test:navybits:pagination@1.0.21
 logging@1.1.16
 meteor@1.6.0
 meteorspark:util@0.2.0
@@ -37,7 +37,7 @@ modules@0.7.7
 modules-runtime@0.7.7
 mongo@1.1.14
 mongo-id@1.0.6
-navybits:pagination@1.0.20
+navybits:pagination@1.0.21
 npm-mongo@2.2.16_1
 observe-sequence@1.0.12
 ordered-dict@1.0.9
