@@ -11,15 +11,25 @@ var getVeryNestedPagination = function (item, level, result) {
     });
     return result;
 }
+
 Template.navybitsPagination.onCreated(function () {
     //using self instead of this
     let self = this;
 
-    //how much we are requiring data on first load
-    this.requiredPages = new ReactiveVar(Number(self.data.initialRequiredPages) || 10);
+
+    //setting the pageNum to the first page initially 
+    this.pageNum = new ReactiveVar(1);
+
+    //setting the amount of data we want to render in each page
+    this.perPage = new ReactiveVar(Number(self.data.perPage) || 5);
 
     //how much we are increasing the limit each time
-    this.limitIncrease = new ReactiveVar(Number(self.data.limitIncrease) || 10);
+    this.limitIncrease = new ReactiveVar(Number(self.data.limitIncrease) || this.perPage.get() * 3);
+
+
+    //how much we are requiring data on first load
+    this.requiredPages = new ReactiveVar(Number(self.data.initialRequiredPages) || this.limitIncrease.get());
+
 
     //subscribe to the initial amount of data
     let subscriptionDetails = self.data.subscriptionDetails;
@@ -30,11 +40,7 @@ Template.navybitsPagination.onCreated(function () {
             limit: this.requiredPages.get()
         });
     }
-    //setting the pageNum to the first page initially 
-    this.pageNum = new ReactiveVar(1);
 
-    //setting the amount of data we want to render in each page
-    this.perPage = new ReactiveVar(Number(self.data.perPage) || 5);
 
     //the number of total pages , to be calculated dynamically
     this.totalPages = new ReactiveVar();
@@ -66,30 +72,36 @@ Template.navybitsPagination.onCreated(function () {
         //getting the current external search word
         var dataContext = Template.currentData();
         let {
-            externalSearchText
+            externalSearchText, subscriptionDetails, perPage, limitIncrease
         } = dataContext;
-        // console.log({externalSearchText,dataContext});
-        if (externalSearchText && externalSearchText !== '') {
-            let searchText = externalSearchText,
-                limit = self.requiredPages.get();
+        self.perPage.set(Number(perPage));
+        self.limitIncrease.set(limitIncrease || perPage * 3);
 
-            let {
-                subscriptionDetails
-            } = self.data
-            //subscription name
-            let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
+        // console.log({ externalSearchText, dataContext });
+        // if (externalSearchText && externalSearchText !== '') {
+        let searchText = externalSearchText,
+            sortBy = subscriptionDetails.sortBy,
+            // perPage = self.perPage.get(),
+            limit = self.requiredPages.get();
 
-            //sending new request to the server 
-            //with the new search text
-            let query = {
-                ...subscriptionDetails,
-                limit
-            };
-            if (searchText) query.searchText = searchText;
-            if (subscriptionName && limit && searchText)
-                Meteor.subscribe(subscriptionName, query);
+        /*  let {
+             subscriptionDetails
+         } = self.data */
+        //subscription name
+        let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
 
+        //sending new request to the server 
+        //with the new search text
+        let query = {
+            ...subscriptionDetails,
+            limit
+        };
+        if (searchText) query.searchText = searchText;
+        if (subscriptionName && limit && (searchText || perPage || sortBy)) {
+            Meteor.subscribe(subscriptionName, query);
+            // console.log({ subscriptionName, limit, searchText, perPage, sortBy });
         }
+        // }
         //setting the search reactive variable to the 
         //entered search text by the user
         self.searchingFor.set(externalSearchText);
@@ -272,7 +284,7 @@ Template.navybitsPagination.helpers({
         let dataLength = data.length,
             perPage = instance.perPage.get();
         instance.totalPages.set(updatePages(dataLength, perPage));
-
+        // console.log({from,to})
         //return the result
         return _.slice(data, from, to);
     },
