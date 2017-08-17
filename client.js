@@ -72,10 +72,13 @@ Template.navybitsPagination.onCreated(function () {
         //getting the current external search word
         var dataContext = Template.currentData();
         let {
-            externalSearchText, subscriptionDetails, perPage, limitIncrease
+            externalSearchText,
+            subscriptionDetails,
+            perPage,
+            limitIncrease
         } = dataContext;
-        self.perPage.set(Number(perPage));
-        self.limitIncrease.set(limitIncrease || perPage * 3);
+        if (perPage) self.perPage.set(Number(perPage));
+        if (limitIncrease) self.limitIncrease.set(limitIncrease || perPage * 3);
 
         // console.log({ externalSearchText, dataContext });
         // if (externalSearchText && externalSearchText !== '') {
