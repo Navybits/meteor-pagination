@@ -1,6 +1,6 @@
 Package.describe({
   name: 'navybits:pagination',
-  version: '1.0.22',
+  version: '1.0.23',
   // Brief, one-line summary of the package.
   summary: 'Paginate efficiently whatever you want, and whenever you want. A meteor pagination by Navybits',
   // URL to the Git repository containing the source code for this package.

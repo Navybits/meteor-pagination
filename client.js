@@ -83,7 +83,7 @@ Template.navybitsPagination.onCreated(function () {
         // console.log({ externalSearchText, dataContext });
         // if (externalSearchText && externalSearchText !== '') {
         let searchText = externalSearchText,
-            sortBy = subscriptionDetails.sortBy,
+            sortBy = subscriptionDetails && subscriptionDetails.sortBy || null,
             // perPage = self.perPage.get(),
             limit = self.requiredPages.get();
 
