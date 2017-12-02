@@ -100,7 +100,7 @@ Template.navybitsPagination.onCreated(function () {
             limit
         };
         if (searchText) query.searchText = searchText;
-        if (subscriptionName && limit && (searchText || perPage || sortBy)) {
+        if (subscriptionName && limit) {
             Meteor.subscribe(subscriptionName, query);
             // console.log({ subscriptionName, limit, searchText, perPage, sortBy });
         }
