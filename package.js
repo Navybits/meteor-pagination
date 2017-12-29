@@ -1,6 +1,9 @@
+/**
+ * Created by Taha ZIADEH - NavyBits on Dec 9, 2016
+ */
 Package.describe({
   name: 'navybits:pagination',
-  version: '1.0.24',
+  version: '1.0.25',
   // Brief, one-line summary of the package.
   summary: 'Paginate efficiently whatever you want, and whenever you want. A meteor pagination by Navybits',
   // URL to the Git repository containing the source code for this package.
@@ -18,11 +21,11 @@ Package.onUse(function (api) {
     'stevezhu:lodash@4.15.0',
     'jquery@1.11.9',
     'reactive-var@1.0.10'
-    ]);
+  ]);
   api.use(['templating@1.2.15'], 'client');
   api.addFiles('pagination.html', 'client');
   api.addFiles('style.css', 'client');
-  api.mainModule('client.js','client');
+  api.mainModule('client.js', 'client');
 });
 
 Package.onTest(function (api) {

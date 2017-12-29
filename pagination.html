@@ -1,3 +1,4 @@
+<!-- Created by Taha ZIADEH - NavyBits on Dec 9, 2016 -->
 <template name="navybitsPagination">
     {{#unless isTable}}
     <div class="row no-margin-bottom">
@@ -12,22 +13,17 @@
                     <option value="userName" data-sorting-direction="asc">{{_"Customer name"}}</option>-->
                 </select> {{#if isMaterialized}}<label for="sortBy">{{_"Sort by"}}</label>{{/if}}
         </div>
-        {{/unless}} 
-        {{#unless isEmpty searchable}}
-          {{#if isUndefined externalSearchText}}
+        {{/unless}} {{#unless isEmpty searchable}} {{#if isUndefined externalSearchText}}
         <div class="input-field col s4">
             <input id="searchForDocument" placeholder="{{#unless isMaterialized}}{{_'Search in list'}}{{/unless}}" name="Search" type="text">            {{#if isMaterialized}}<label for="searchForDocument">{{_"Search in list"}}</label>{{/if}}
         </div>
-         {{/if}}
-        {{/unless}}
+        {{/if}} {{/unless}}
     </div>
-    {{/unless}}
-    {{#unless isTable}}<div class="row">
+    {{/unless}} {{#unless isTable}}
+    <div class="row">
         {{#each page}} {{>Template.contentBlock this}} {{/each}}
-     </div>
-     {{else}}
-             {{#each page}} {{>Template.contentBlock this}} {{/each}}
-     {{/unless}}
+    </div>
+    {{else}} {{#each page}} {{>Template.contentBlock this}} {{/each}} {{/unless}}
     <div class="pagination-container text-center row">
         <ul class="navy-pagination pagination">
             <li>

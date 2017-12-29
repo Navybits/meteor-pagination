@@ -1,3 +1,7 @@
+/**
+ * Created by Taha ZIADEH - NavyBits on Dec 9, 2016
+ */
+
 var getVeryNestedPagination = function (item, level, result) {
     result = result || [];
     _.each(item, (value, key) => {
