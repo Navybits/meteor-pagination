@@ -35,13 +35,13 @@ Template.navybitsPagination.onCreated(function () {
     this.requiredPages = new ReactiveVar(Number(self.data.initialRequiredPages) || this.limitIncrease.get());
 
     //Subscription level type    
-    this.templateSubcription = self.data.templateSubcription || false;
+    this.templateSubscription = self.data.templateSubscription || false;
 
     //subscribe to the initial amount of data
     let subscriptionDetails = self.data.subscriptionDetails;
     let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
     if (subscriptionName) {
-        if(self.data.templateSubcription)
+        if(self.data.templateSubscription)
         {
             self.subscribe(subscriptionName, {
                 ...subscriptionDetails,
@@ -120,7 +120,7 @@ Template.navybitsPagination.onCreated(function () {
         if (searchText) query.searchText = searchText;
         if (subscriptionName && limit) {
             
-            if(self.data.templateSubcription)
+            if(self.data.templateSubscription)
         {
             self.subscribe(subscriptionName, query);
         }
@@ -172,7 +172,7 @@ Template.navybitsPagination.events({
 
         let {
             subscriptionDetails,
-            templateSubcription
+            templateSubscription
         } = temp.data
         //subscription name
         let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
@@ -186,7 +186,7 @@ Template.navybitsPagination.events({
         if (searchText) query.searchText = searchText;
         if (subscriptionName && limit && searchText)
 
-            if(templateSubcription)
+            if(templateSubscription)
             {
                 temp.subscribe(subscriptionName, query);
             }
@@ -217,7 +217,7 @@ Template.navybitsPagination.events({
 
         let {
             subscriptionDetails,
-            templateSubcription            
+            templateSubscription            
         } = temp.data
         //subscription name
         let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
@@ -238,7 +238,7 @@ Template.navybitsPagination.events({
                 limit: nextLimit
             };
             if (searchText) query.searchText = searchText;
-                if(templateSubcription)
+                if(templateSubscription)
                 {
                     temp.subscribe(subscriptionName, query);
                 }
