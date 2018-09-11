@@ -34,15 +34,29 @@ Template.navybitsPagination.onCreated(function () {
     //how much we are requiring data on first load
     this.requiredPages = new ReactiveVar(Number(self.data.initialRequiredPages) || this.limitIncrease.get());
 
+    //Subscription level type    
+    this.templateSubcription = self.data.templateSubcription || false;
 
     //subscribe to the initial amount of data
     let subscriptionDetails = self.data.subscriptionDetails;
     let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
     if (subscriptionName) {
-        Meteor.subscribe(subscriptionName, {
-            ...subscriptionDetails,
-            limit: this.requiredPages.get()
-        });
+        if(self.data.templateSubcription)
+        {
+            self.subscribe(subscriptionName, {
+                ...subscriptionDetails,
+                limit: this.requiredPages.get()
+            });
+        }
+        else
+        {
+            Meteor.subscribe(subscriptionName, {
+                ...subscriptionDetails,
+                limit: this.requiredPages.get()
+            });
+
+        }        
+        
     }
 
 
@@ -105,7 +119,16 @@ Template.navybitsPagination.onCreated(function () {
         };
         if (searchText) query.searchText = searchText;
         if (subscriptionName && limit) {
+            
+            if(self.data.templateSubcription)
+        {
+            self.subscribe(subscriptionName, query);
+        }
+        else
+        {
             Meteor.subscribe(subscriptionName, query);
+        }
+            
             // console.log({ subscriptionName, limit, searchText, perPage, sortBy });
         }
         // }
@@ -148,7 +171,8 @@ Template.navybitsPagination.events({
             limit = temp.requiredPages.get();
 
         let {
-            subscriptionDetails
+            subscriptionDetails,
+            templateSubcription
         } = temp.data
         //subscription name
         let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
@@ -161,7 +185,16 @@ Template.navybitsPagination.events({
         };
         if (searchText) query.searchText = searchText;
         if (subscriptionName && limit && searchText)
-            Meteor.subscribe(subscriptionName, query);
+
+            if(templateSubcription)
+            {
+                temp.subscribe(subscriptionName, query);
+            }
+            else
+            {
+                Meteor.subscribe(subscriptionName, query);
+            }
+            
 
 
         //setting the search reactive variable to the 
@@ -183,7 +216,8 @@ Template.navybitsPagination.events({
         let currentCount = dataLength || 0;
 
         let {
-            subscriptionDetails
+            subscriptionDetails,
+            templateSubcription            
         } = temp.data
         //subscription name
         let subscriptionName = subscriptionDetails && subscriptionDetails.subscriptionName;
@@ -204,7 +238,15 @@ Template.navybitsPagination.events({
                 limit: nextLimit
             };
             if (searchText) query.searchText = searchText;
-            Meteor.subscribe(subscriptionName, query);
+                if(templateSubcription)
+                {
+                    temp.subscribe(subscriptionName, query);
+                }
+                else
+                {
+                    Meteor.subscribe(subscriptionName, query);
+                }
+            
         }
 
         //setting the new required data limit
