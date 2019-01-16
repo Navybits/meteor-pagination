@@ -24,7 +24,7 @@ meteor add navybits:pagination
 ```
 ### Use
 
-##Usage with blaze:
+## Usage with blaze:
 
 For instance, we will cover the 3rd use case of data pagination where you already have your data and you want to enhance the user experience:
 in your `temp.js` file
@@ -48,7 +48,7 @@ Then in your `temp.html` file
 > Congratulations! This way you will have the 2 array elements paginated. Pretty cool not ?!
 This is just a demo, obviously you have to fill the `dataToPaginate` helper by you own data set 
 
-##Usage with React:
+## Usage with React:
 When using React, it is possible to render blaze templates:
 First, let's say you have the following blaze template `pagination.html`:
 ```
