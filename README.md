@@ -23,6 +23,9 @@ This package provides two major advantages upon other pagination packages:
 meteor add navybits:pagination
 ```
 ### Use
+
+##Usage with blaze:
+
 For instance, we will cover the 3rd use case of data pagination where you already have your data and you want to enhance the user experience:
 in your `temp.js` file
 ```javascript
@@ -45,7 +48,60 @@ Then in your `temp.html` file
 > Congratulations! This way you will have the 2 array elements paginated. Pretty cool not ?!
 This is just a demo, obviously you have to fill the `dataToPaginate` helper by you own data set 
 
+##Usage with React:
+When using React, it is possible to render blaze templates:
+First, let's say you have the following blaze template `pagination.html`:
+```
+<template name="pagination">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        {{#navybitsPagination data=dataToPaginate isTable=true}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{age}}</td>
+        </tr>
+        {{/navybitsPagination}}
+    </table>
+</template>
+```
+Now you have the blaze template using `navybits:pagination` ready, all you need is a way to let React renders this template. For this purpose, you can use `gadicc:blaze-react-component` package:
+Let's create a wrapper component for your pagination template, for example `paginationBlazeWrapper.js`:
+```
+import React, { Component } from 'react';
+import Blaze from 'meteor/gadicc:blaze-react-component';
+export default class NavybitsPagination extends Component {
+    render() {
+        return <div>
+            <Blaze template="pagination"
+                dataToPaginate={this.props.data}
+            />
+        </div>
+    }
+}
+```
+That's is, now you have your `NavybitsPagination` component ready to reuse as much as needed, let's say in some other component:
+```
+import NavybitsPagination from './paginationBlazeWrapper';//choose the right path for your file 'paginationBlazeWrapper.js'
+....
+....
+....
+render(){
+return (
+...
+         <NavybitsPagination
+            data={[{name:"taha",age:25},{name:"Mohammad",age:31}]}
+          />
+....
+)
 
+```
+
+> Congratulations! That's it
 
 For more details about using the package in different situations, please visit our blog post page  :  
 [Visit our blog](https://blog.navybits.com/efficient-and-high-performance-pagination-in-meteor-bb5d379d234)
